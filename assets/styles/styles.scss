@@ -1,6 +1,8 @@
 .containerTwo {
-  flex: 1;
-  background-color: #f8ac5b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f85bde;
   height: 100vh;
   
   .title {
