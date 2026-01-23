@@ -1,13 +1,15 @@
 import { Tabs } from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import "../../native.css";
 
 export default function RootLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         tabBarActiveTintColor: '#ffd33d',
         headerStyle: {
-          backgroundColor: '#25292e',
+          backgroundColor: '#2e2925ff',
         },
         headerShadowVisible: false,
         headerTintColor: '#fff',

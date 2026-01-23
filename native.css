@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  
+  /* Custom CSS syntax (NativeWind translates this for Mobile) */
+  .main-screen-holder {
+    @apply flex-1 items-center justify-center bg-[#ddd];
+  }
+}
