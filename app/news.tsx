@@ -1,0 +1,14 @@
+import { Text, View, StyleSheet } from "react-native";
+import {Link} from "expo-router";
+import { globalStyles } from '../assets/styles/GlobalStyles';
+
+
+export default function Index() {
+  return (
+   <View style={globalStyles.container}>
+    <Text style={globalStyles.text}>This is news page</Text>
+   </View>
+  );
+}
+
+
