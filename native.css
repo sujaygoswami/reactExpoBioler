@@ -6,6 +6,6 @@
   
   /* Custom CSS syntax (NativeWind translates this for Mobile) */
   .main-screen-holder {
-    @apply flex-1 items-center justify-center bg-[#ddd];
+    @apply flex-1 items-start justify-start bg-[#ddd];
   }
 }
