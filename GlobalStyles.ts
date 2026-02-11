@@ -47,29 +47,29 @@ export const globalStyles = StyleSheet.create({
     },
     AppImageCard: {
         backgroundColor: '#fff',
-        paddingBottom: 50,
     },
     TrendingImageListingWrap: {
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
     },
-    PaddingAllDefault:{
-        padding: 20,
+    PaddingAllDefaultVar1:{
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingRight: 10,
+        paddingLeft: 10
     },
     PaddingBottomDefault:{
         paddingBottom: 20,
     },
-    GlobalGridRow:{
-        marginLeft: -10,
-        marginRight: -10,
+    GridRowDefault:{
+        marginLeft: 0,
+        marginRight: 0,
+        rowGap: 20,
     },
-    GlobalGridCol:{
-        marginLeft: 10,
-        marginRight: 10,
-    },
-    GridCol3:{
-        width: 30,
-    },
+    GridColDfault:{
+        paddingLeft: 10,
+        paddingRight: 10,
+    }
 
     
 });
