@@ -1,21 +1,11 @@
 import React, { useState } from 'react';
 import { Text, View, ScrollView, Modal, TouchableOpacity, Pressable } from "react-native";
-import { Link } from "expo-router";
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '../../GlobalStyles';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 
-
-const trendingImgLIstingData = [
-  { id: 1, title: 'Photography 1', img: require('../../assets/images/photography-1.jpg') },
-  { id: 2, title: 'Photography 2', img: require('../../assets/images/photography-2.jpg') },
-  { id: 3, title: 'Photography 3', img: require('../../assets/images/photography-3.jpg') },
-  { id: 4, title: 'Photography 4', img: require('../../assets/images/photography-4.jpg') },
-  { id: 5, title: 'Photography 5', img: require('../../assets/images/photography-5.jpg') },
-  { id: 6, title: 'Photography 6', img: require('../../assets/images/photography-6.jpg') },
-  { id: 7, title: 'Photography 7', img: require('../../assets/images/photography-7.jpg') },
-  { id: 8, title: 'Photography 8', img: require('../../assets/images/photography-8.jpg') },
-];
+// trending img data
+import { trendingImgLIstingData } from '../data/TrendingData';
 
 interface ImageItem {
   id: number;
@@ -27,6 +17,7 @@ interface ImageItem {
 
 
 export default function Index() {
+  const router = useRouter();
   const [selectedItem, setSelectedItem] = useState<ImageItem | null>(null);
   return (
     <ScrollView
@@ -83,6 +74,19 @@ export default function Index() {
               >
                 <Text className="text-white text-center font-bold">Close Details</Text>
               </TouchableOpacity>
+
+               {/* Detail Button */}
+              <TouchableOpacity 
+                  onPress={() => {
+                    const id = selectedItem?.id;
+                    setSelectedItem(null); // Always close modal first
+                    // Navigate to details page
+                    router.push(`/details/${id}`); 
+                  }}
+                  className="flex-1 bg-blue-600 p-4 rounded-xl"
+                >
+                  <Text className="text-white text-center font-bold">Detail</Text>
+                </TouchableOpacity>
             </View>
           </Pressable>
         </Pressable>
