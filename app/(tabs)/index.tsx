@@ -4,6 +4,7 @@ import { globalStyles } from '../../GlobalStyles';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 
+
 // trending img data
 import { trendingImgLIstingData } from '../data/TrendingData';
 

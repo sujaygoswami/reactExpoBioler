@@ -33,13 +33,16 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
     },
-    leftContainer: {
+    HeaderleftContainer: {
         flex: 1,
         alignItems: 'flex-start',
     },
-    rightContainer: {
+    HeaderrightContainer: {
         flex: 1,
         alignItems: 'flex-end',
+    },
+    HeadermiddleContainer:{
+
     },
     logo: {
         width: 40, // Adjust based on your logo size
