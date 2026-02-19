@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, ScrollView, Modal, TouchableOpacity, Pressable } from "react-native";
 import { globalStyles } from '../../GlobalStyles';
 import { Image } from 'expo-image';
@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 
 
 // trending img data
-import { trendingImgLIstingData } from '../data/TrendingData';
+// import { trendingImgLIstingData } from '../data/TrendingData';
 
 interface ImageItem {
   id: number;
@@ -20,6 +20,42 @@ interface ImageItem {
 export default function Index() {
   const router = useRouter();
   const [selectedItem, setSelectedItem] = useState<ImageItem | null>(null);
+
+  // 1. Create state to hold the data
+  const [dataList, setDataList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // 2. Fetch from your DDEV TYPO3 backend
+    fetch('https://react-typo-trending-img.ddev.site')
+      .then((res) => res.json())
+      .then((json) => {
+        // 3. Map the complex TYPO3 gallery structure to your simple app structure
+        const remoteData = json.content.colPos0.map((item: any) => {
+          // Dig into the 'gallery' rows to find the image URL
+          const imgUrl = item.content.gallery?.rows?.["1"]?.columns?.["1"]?.publicUrl;
+
+          return {
+            id: item.id,
+            title: item.content.header,
+            description: item.content.bodytext,
+            // Convert URL string into a React Native source object
+            img: imgUrl ? { uri: imgUrl } : null, 
+          };
+        });
+
+        setDataList(remoteData);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("TYPO3 Fetch Error:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <View className="flex-1 justify-center"><Text>Loading...</Text></View>;
+
+
   return (
     <ScrollView
       className="flex-1"
@@ -29,7 +65,7 @@ export default function Index() {
         <View className='w-full flex-row flex-wrap' style={[globalStyles.TrendingImageListingWrap, globalStyles.PaddingAllDefaultVar1, globalStyles.GridRowDefault]}>
 
 
-          {trendingImgLIstingData.map((item) => (
+          {dataList.map((item) => (
             <View key={item.id} className="w-1/2" style={[globalStyles.GridColDfault]}>
               <Pressable onPress={() => setSelectedItem(item)} className="rounded-2xl shadow-md overflow-hidden" style={[globalStyles.AppImageCard]}>
                 <Image

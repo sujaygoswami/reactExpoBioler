@@ -1,8 +1,8 @@
-import { useLocalSearchParams, Stack } from 'expo-router';
-import { TouchableOpacity, View, Text, ScrollView, StyleSheet } from 'react-native';
+import { useLocalSearchParams, Stack, useRouter } from 'expo-router';
+import { TouchableOpacity, View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import React, { useState, useEffect } from 'react';
 
 // trending img data
 import { trendingImgLIstingData } from '../data/TrendingData';
@@ -11,13 +11,48 @@ import { trendingImgLIstingData } from '../data/TrendingData';
 export default function DetailsScreen() {
     // 1. Get the ID from the URL parameters
     const { id } = useLocalSearchParams();
-
     const router = useRouter();
+    const [item, setItem] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
 
-    // 2. Find the specific item matching that ID
-    const item = trendingImgLIstingData.find((p) => p.id.toString() === id);
+    useEffect(() => {
+        // Fetch from TYPO3
+        fetch('https://react-typo-trending-img.ddev.site')
+            .then((res) => res.json())
+            .then((json) => {
+                // Dig into colPos0 to find the matching element
+                const selected = json.content.colPos0.find((el: any) => el.id.toString() === id);
 
-    if (!item) return <View><Text>Item not found</Text></View>;
+                if (selected) {
+                    const imgUrl = selected.content.gallery?.rows?.["1"]?.columns?.["1"]?.publicUrl;
+                    setItem({
+                        title: selected.content.header,
+                        description: selected.content.bodytext,
+                        // Ensure the image URL is wrapped in a { uri } object
+                        img: imgUrl ? { uri: imgUrl } : null,
+                    });
+                }
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error("Detail Fetch Error:", err);
+                setLoading(false);
+            });
+    }, [id]);
+
+    // Handle Loading State
+    if (loading) return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+    );
+
+    // Handle "Not Found" State
+    if (!item) return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Image not found in TYPO3</Text>
+        </View>
+    );
 
     return (
         <ScrollView className="flex-1 bg-white">
